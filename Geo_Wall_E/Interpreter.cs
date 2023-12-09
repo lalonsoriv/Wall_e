@@ -147,8 +147,18 @@ namespace Geo_Wall_E
                     Sequence sequence = (Sequence)((ICheckType)asig.Assigment).Check(scope);
                     for (int i = 0; i < asig.Name.Count; i++)
                     {
-                        if (asig.Name[i].Type == TypesOfToken.UnderscoreToken || asig.Name[i].Type == TypesOfToken.RestToken) continue;
+                        if (asig.Name[i].Type == TypesOfToken.UnderscoreToken) continue;
                         if (asig.Name.Count > sequence.Elements.Count) scope.SetTypes(asig.Name[i].Lexeme!, new EmptyType());
+                        if (asig.Name[i].Type == TypesOfToken.RestToken)
+                        {
+                            Sequence rest = new([], "");
+                            for (int j = i; j < sequence.Elements.Count; j++)
+                            {
+                                rest.Elements.Add(sequence.Elements[j]);
+                            }
+                            scope.SetTypes(asig.Name[i].Lexeme!, rest);
+                            break;
+                        }
                         else scope.SetTypes(asig.Name[i].Lexeme!, sequence.Elements[i]);
                     }
                 }
