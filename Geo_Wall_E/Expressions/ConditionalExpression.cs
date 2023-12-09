@@ -16,12 +16,7 @@ namespace Geo_Wall_E
 
         public Type Check(Scope scope)
         {
-            //Scope newScope = new();
-            //scope.SetScope();
             Type if_ = ((ICheckType)If).Check(scope);
-            // Type then = ((ICheckType)Then).Check(scope);
-            // Type else_ = ((ICheckType)Else).Check(scope);
-            //if (CheckThenElse(scope, Then, Else))
             {
                 if (if_.TypeOfElement == TypeOfElement.Number)
                 {
@@ -39,19 +34,6 @@ namespace Geo_Wall_E
                 }
                 return ((ICheckType)Then).Check(scope);
             }
-            //else throw new TypeCheckerError(0, 0, "No se pueden devolver tipos de elementos distintos dentro de una condicional");
-        }
-        private bool CheckThenElse(Scope scopee, Expressions then, Expressions else_)
-        {
-           // var dict = scopee.GetDictionary();
-            Scope newScope = scopee;
-            //scope.SetDictionary(dict);
-            Type then_ = ((ICheckType)then).Check(newScope);
-            Type _else = ((ICheckType)else_).Check(newScope);
-            bool sameType;
-            if (then_.TypeOfElement == _else.TypeOfElement) sameType = true;
-            else sameType = false;
-            return sameType;
         }
     }
 }
