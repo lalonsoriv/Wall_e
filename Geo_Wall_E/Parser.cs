@@ -122,6 +122,7 @@ namespace Geo_Wall_E
                 TypesOfToken.PointsToken => ParsePoints(),
                 TypesOfToken.RandomsToken => ParseRandoms(),
                 TypesOfToken.RayToken => ParseRayExpression(),
+                TypesOfToken.RestToken => new VariableExpression(Advance()),
                 TypesOfToken.SamplesToken => ParseSamples(),
                 TypesOfToken.SegmentToken => ParseSegmentExpression(),
                 _ => ParseLogical(),
@@ -280,8 +281,6 @@ namespace Geo_Wall_E
 
         private Expressions Literal()
         {
-            //revisar
-            //Advance();
             switch (currentToken.Type)
             {
                 case TypesOfToken.Number: Advance(); return new NumberExpression(previousToken);
@@ -332,6 +331,11 @@ namespace Geo_Wall_E
         private SequenceExpression ParseSequence()
         {
             Advance();
+            if (ExpectedAndAdvance(TypesOfToken.CloseBracketsToken))
+            { 
+                Empty empty = new();
+                return new SequenceExpression( empty);
+            }
             if (nextToken.Type == TypesOfToken.ThreeDotsToken)
             {
                 Match(TypesOfToken.Number);
@@ -601,7 +605,7 @@ namespace Geo_Wall_E
 
         private Node ParseArc()
         {
-         if (nextToken.Type == TypesOfToken.OpenParenthesisToken) return ParseArcExpression();
+            if (nextToken.Type == TypesOfToken.OpenParenthesisToken) return ParseArcExpression();
             Advance();
             if (ExpectedAndAdvance(TypesOfToken.SequenceToken))
             {
@@ -613,9 +617,9 @@ namespace Geo_Wall_E
             Match(TypesOfToken.ID);
             Token Id = Advance();
             MatchAndAdvance(TypesOfToken.SemicolonToken);
-            return new ArcStmt(Id, false);   
+            return new ArcStmt(Id, false);
         }
-        
+
         private ArcExpression ParseArcExpression()
         {
             Advance();
@@ -681,6 +685,7 @@ namespace Geo_Wall_E
                 return new AssignationStmt(names, body);
             }
             if (ExpectedAndAdvance(TypesOfToken.UnderscoreToken)) return new Empty();
+            if (Expected(TypesOfToken.RestToken)) return new SequenceExpression(Advance());
             if (current != 0 && previousToken.Type == TypesOfToken.DrawToken)
             {
                 return new VariableExpression(Advance());
