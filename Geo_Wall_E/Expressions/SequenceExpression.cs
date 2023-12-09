@@ -8,6 +8,7 @@ namespace Geo_Wall_E
         public Token? End { get; private set; }
         public ConcatenatedSequenceExpression? Sequence { get; private set; }
         public InfiniteSequenceExpression? InfiniteSequence { get; private set; }
+        public Empty? Empty { get; private set; }
 
         public SequenceExpression(List<Expressions> elements)
         {
@@ -26,6 +27,10 @@ namespace Geo_Wall_E
         {
             Sequence = sequence;
         }
+        public SequenceExpression(Empty empty)
+        {
+            Empty = empty;
+        }
 
         public Type Check(Scope scope)
         {
@@ -42,19 +47,33 @@ namespace Geo_Wall_E
             if (Start != null && End != null)
             {
                 //si la intersección es muy grande se considerará que es infinita
-                if ((int)Start.Value! - (int)End.Value! > 100) return (Sequence)new InfiniteSequenceExpression(Start).Check(scope);
-                List<Type> sequence = (List<Type>)Enumerable.Range((int)Start.Value!, (int)End.Value!).Select(x => new Number(x));
-                return new Sequence(sequence, "");
+                if ((double)End.Value! - (double)Start.Value! > 1000) return (Sequence)new InfiniteSequenceExpression(Start).Check(scope);
+                else
+                {
+                    double start = (double)Start.Value!;
+                    double end = (double)End.Value!;
+                    var sequence = Enumerable.Range(Convert.ToInt32(start), Convert.ToInt32(end) - Convert.ToInt32(start) + 1).Select(x => new Number(x));
+                    List<Type> seq = [];
+                    foreach (var item in sequence)
+                    {
+                        seq.Add(item);
+                    }
+                    return new Sequence(seq, "");
+                }
             }
             if (Start != null && End == null)
             {
-                ///deberia devolver una secuencia infita
+                //deberia devolver una secuencia infita
                 return (Sequence)new InfiniteSequenceExpression(Start).Check(scope);
             }
             if (Sequence != null)
             {
-                ///deberia devolver una secuencia concatenada
+                //deberia devolver una secuencia concatenada
                 return (Sequence)((ICheckType)Sequence).Check(scope);
+            }
+            if (Empty != null)
+            {
+                return new EmptyType();
             }
             else throw new TypeCheckerError(0, 0, "La secuencia no es válida");
         }
@@ -121,8 +140,9 @@ namespace Geo_Wall_E
 
         public Type Check(Scope scope)
         {
-            List<Type> sequence = (List<Type>)Enumerable.Range((int)Start.Value!, (int)Start.Value! + 100).Select(x => new Number(x));
-            return new Sequence(sequence,"");
+            double start = (double)Start.Value!;
+            List<Type> sequence = (List<Type>)Enumerable.Range((int)start, (int)start + 1000).Select(x => new Number(x));
+            return new Sequence(sequence, "");
         }
     }
 }
