@@ -21,7 +21,6 @@ namespace Geo_Wall_E
             if (cantCall < maxCantCall)
             {
                 Type function = scope.GetTypes(Name.Lexeme!);
-                //Type function = scope.GetType(Name);
                 if (function.TypeOfElement == TypeOfElement.Function)
                 {
                     if (Arguments.Count == ((Function)function).Arguments.Count)
