@@ -95,11 +95,25 @@ namespace Geo_Wall_E
                 if (Math.Sqrt(Math.Pow(c.Center.X - p.X, 2) + Math.Pow(c.Center.Y - p.Y, 2)) == c.Radius.Measure_) return true;
                 else return false;
             }
-            // else if (figure is Arc a)
-            // {
-            //     if()return true;
-            //     else return false;
-            // }
+            else if (figure is Arc a)
+            {
+                // Calcula la distancia entre el centro del arco y el punto usando la ecuación de la circunferencia
+                double distance = Math.Abs(Math.Sqrt(Math.Pow(p.X - a.Center.X, 2) + Math.Pow(p.Y - a.Center.Y, 2)));
+                // Si esta es igual al radio de la circunferncia entonces el punto esta contenido 
+                if (distance == Math.Abs(a.Measure.Measure_))
+                {
+                    //Calcular si el punto esta entre los limites del arco
+                    double arcPointsDistance = Math.Abs(Math.Sqrt(Math.Pow(a.Start.X - a.End.X, 2) + Math.Pow(a.Start.Y - a.End.Y, 2)));
+                    double starPointDistance = Math.Abs(Math.Sqrt(Math.Pow(p.X - a.Start.X, 2) + Math.Pow(p.Y - a.Start.Y, 2)));
+                    double endPointDistance = Math.Abs(Math.Sqrt(Math.Pow(p.X - a.End.X, 2) + Math.Pow(p.Y - a.End.Y, 2)));
+                    if (arcPointsDistance == (starPointDistance + endPointDistance))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else return false;
+            }
             else throw new TypeCheckerError(0, 0, "No es posible realizar el intercepto");
         }
     }
