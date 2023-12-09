@@ -234,7 +234,7 @@ namespace Geo_Wall_E
 
         private void GetNumber()
         {
-            double number = input[current];
+            string number = input[current].ToString();
             bool IsDot = false;
             Advance();
             for (int i = current; i < input.Length; i++)
@@ -252,7 +252,7 @@ namespace Geo_Wall_E
                 number += input[i];
                 Advance();
             }
-            AddToken(TypesOfToken.Number, number);
+            AddToken(TypesOfToken.Number, double.Parse(number));
         }
         //Ignora todo lo que se encuentre dentro del comentario
         private void GetComment()
