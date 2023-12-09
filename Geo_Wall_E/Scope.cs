@@ -3,19 +3,19 @@ namespace Geo_Wall_E
     public class Scope
     {
         public Dictionary<string, Dictionary<int, FunctionStmt>> variablesInFunction = new();
-        private Stack<Dictionary<string, Type>> scopees = new();
+        private Stack<Dictionary<string, Type>> scopes = new();
         public Scope()
         {
-            scopees.Push(new());
+            scopes.Push([]);
             variablesInFunction = new();
         }
         public void SetScope()
         {
-            scopees.Push(new());
+            scopes.Push([]);
         }
-        public Type GetTypes(string id) //arreglar nombre
+        public Type GetTypes(string id) 
         {
-            foreach (var scope in scopees)
+            foreach (var scope in scopes)
             {
                 if (scope.TryGetValue(id, out Type? value))
                 {
@@ -26,19 +26,19 @@ namespace Geo_Wall_E
         }
         public void DeleteScope()
         {
-            scopees.Pop();
+            scopes.Pop();
         }
         public void SetTypes(string id, Type value)
         {
-            scopees.Peek()[id] = value;
+            scopes.Peek()[id] = value;
         }
         public Dictionary<string, Type> GetDictionary()
         {
-            return scopees.Peek();
+            return scopes.Peek();
         }
         public void SetDictionary(Dictionary<string, Type> dict)
         {
-            scopees.Push(dict);
+            scopes.Push(dict);
         }
         //Busca la función y inicializa sus parámetros
         public void Search(FunctionStmt function)
