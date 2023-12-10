@@ -2,15 +2,15 @@ namespace Geo_Wall_E
 {
     public class Lexer
     {
-        //El codigo a escanear
+        //El código a escanear
         private readonly string input;
         //Caracter a escanear
         private int current = 0;
-        //Linea actual
+        //Línea actual
         private int line = 1;
         //Columna actual
         private int column = 1;
-        //Primer caracter del token que se esta evaluando
+        //Primer caracter del token que se está evaluando
         private int start = 0;
         private bool isTheEnd => current >= input.Length;
 
@@ -110,7 +110,6 @@ namespace Geo_Wall_E
         private void Scan()
         {
             char currentChar = input[current];
-            //Advance();
             switch (currentChar)
             {
                 case '"': GetString(); break;
@@ -218,7 +217,7 @@ namespace Geo_Wall_E
                 id += Peek();
                 Advance();
             }
-            TypesOfToken type = new();
+            TypesOfToken type;
             try
             {
                 type = keywords[id];
@@ -242,9 +241,9 @@ namespace Geo_Wall_E
                 //Si es una letra lanza un LexicalError 
                 if (char.IsLetter(input[i])) throw new LexicalError(line, column, "Después de un número no debe escribir una letra");
                 //Si ya tenía un punto y se agregó otro lanza un LexicalError
-                if (input[i] == '.' && IsDot == true) throw new LexicalError(line, column, "Este número ya contenia un punto");
+                if (input[i] == '.' && IsDot == true) throw new LexicalError(line, column, "Este número ya contenía un punto");
                 //Si se tiene un punto y el caracter siguiente no es un número lanza un LexicalError
-                if (!char.IsDigit(input[i]) && input[i - 1] == '.') throw new LexicalError(line, column, "Déspues de '.' se esperaba un número");
+                if (!char.IsDigit(input[i]) && input[i - 1] == '.') throw new LexicalError(line, column, "Después de '.' se esperaba un número");
                 //Si es decimal se declara verdadero Is_dot
                 if (input[i] == '.') IsDot = true;
                 //Si no es un número o un punto sale del ciclo 
