@@ -7,16 +7,16 @@ namespace Geo_Wall_E
         public override TypesOfToken Type => TypesOfToken.AssignationStatement;
         public List<Token>? Name { get; private set; }
         public Token? Name_ { get; private set; }
-        public Expressions Assigment { get; private set; }
-        public AssignationStmt(List<Token> name, Expressions assigment)
+        public Expressions Assignment { get; private set; }
+        public AssignationStmt(List<Token> name, Expressions assignment)
         {
             Name = name;
-            Assigment = assigment;
+            Assignment = assignment;
         }
-        public AssignationStmt(Token name, Expressions assigment)
+        public AssignationStmt(Token name, Expressions assignment)
         {
             Name_ = name;
-            Assigment = assigment;
+            Assignment = assignment;
         }
     }
 }
