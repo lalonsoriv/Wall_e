@@ -19,9 +19,9 @@ namespace Geo_Wall_E
             Start = start;
             End = end;
         }
-        public SequenceExpression(Token strat)
+        public SequenceExpression(Token start)
         {
-            Start = strat;
+            Start = start;
         }
         public SequenceExpression(ConcatenatedSequenceExpression sequence)
         {
@@ -53,7 +53,7 @@ namespace Geo_Wall_E
                     double start = (double)Start.Value!;
                     double end = (double)End.Value!;
                     var sequence = Enumerable.Range(Convert.ToInt32(start), Convert.ToInt32(end) - Convert.ToInt32(start) + 1).Select(x => new Number(x));
-                    List<Type> seq = [];
+                    List<Type> seq = new();
                     foreach (var item in sequence)
                     {
                         seq.Add(item);
@@ -63,12 +63,12 @@ namespace Geo_Wall_E
             }
             if (Start != null && End == null)
             {
-                //deberia devolver una secuencia infita
+                //debería devolver una secuencia infinita
                 return (Sequence)new InfiniteSequenceExpression(Start).Check(scope);
             }
             if (Sequence != null)
             {
-                //deberia devolver una secuencia concatenada
+                //debería devolver una secuencia concatenada
                 return (Sequence)((ICheckType)Sequence).Check(scope);
             }
             if (Empty != null)
@@ -82,46 +82,46 @@ namespace Geo_Wall_E
     public class ConcatenatedSequenceExpression : Expressions, ICheckType
     {
         public override TypesOfToken Type => TypesOfToken.SequenceToken;
-        public SequenceExpression? FirstSquence { get; private set; }
+        public SequenceExpression? FirstSequence { get; private set; }
         public UndefinedExpression? Undefined { get; private set; }
-        public SequenceExpression? SecondSquence { get; private set; }
+        public SequenceExpression? SecondSequence { get; private set; }
 
         public ConcatenatedSequenceExpression(SequenceExpression first, SequenceExpression second)
         {
-            FirstSquence = first;
-            SecondSquence = second;
+            FirstSequence = first;
+            SecondSequence = second;
         }
 
         public ConcatenatedSequenceExpression(SequenceExpression first, UndefinedExpression undefined)
         {
-            FirstSquence = first;
+            FirstSequence = first;
             Undefined = undefined;
         }
 
         public ConcatenatedSequenceExpression(UndefinedExpression undefined, SequenceExpression second)
         {
-            SecondSquence = second;
+            SecondSequence = second;
             Undefined = undefined;
         }
 
         public Type Check(Scope scope)
         {
-            if (FirstSquence != null && SecondSquence != null)
+            if (FirstSequence != null && SecondSequence != null)
             {
-                Sequence first = (Sequence)((ICheckType)FirstSquence!).Check(scope);
-                Sequence second = (Sequence)((ICheckType)SecondSquence!).Check(scope);
+                Sequence first = (Sequence)((ICheckType)FirstSequence!).Check(scope);
+                Sequence second = (Sequence)((ICheckType)SecondSequence!).Check(scope);
                 List<Type> sequence = new(first.Elements.Concat(second.Elements));
                 if (sequence.All(x => x.TypeOfElement == sequence[0].TypeOfElement)) return new Sequence(sequence, "");
                 else throw new TypeCheckerError(0, 0, "Para poder concatenar las secuencias deben ser del mismo tipo");
             }
-            if (FirstSquence != null && Undefined != null)
+            if (FirstSequence != null && Undefined != null)
             {
-                Sequence first = (Sequence)((ICheckType)FirstSquence!).Check(scope);
+                Sequence first = (Sequence)((ICheckType)FirstSequence!).Check(scope);
                 Undefined undefined = (Undefined)((ICheckType)Undefined!).Check(scope);
                 first.Elements.Add(undefined);
                 return new Sequence(first.Elements, "");
             }
-            if (SecondSquence != null && Undefined != null)
+            if (SecondSequence != null && Undefined != null)
             {
                 return new Undefined();
             }
