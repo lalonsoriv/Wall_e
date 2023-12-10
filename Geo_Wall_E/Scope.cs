@@ -6,12 +6,12 @@ namespace Geo_Wall_E
         private Stack<Dictionary<string, Type>> scopes = new();
         public Scope()
         {
-            scopes.Push([]);
+            scopes.Push(new());
             variablesInFunction = new();
         }
         public void SetScope()
         {
-            scopes.Push([]);
+            scopes.Push(new());
         }
         public Type GetTypes(string id) 
         {
