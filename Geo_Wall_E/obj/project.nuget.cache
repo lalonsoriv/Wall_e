@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "UyXvw6zgP+Y6qpv6MgKafqtrID8lAQCpG20hkyUXcKj0HNplu2ZoexqZJOqC9dwem11nEGWZ9GHr+W+q1Cnqgg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\laura\\Desktop\\Wall_e-main\\Wall_e-main\\Geo_Wall_E\\Geo_Wall_E.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\laura\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\laura\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "C:\\Users\\laura\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512"
+  ],
+  "logs": []
+}

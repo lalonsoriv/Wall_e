@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Geo_Wall_E/1.0.0": {
+        "runtime": {
+          "Geo_Wall_E.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Geo_Wall_E/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
