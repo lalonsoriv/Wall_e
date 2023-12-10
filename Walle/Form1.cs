@@ -1,4 +1,5 @@
 using Geo_Wall_E;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
@@ -10,12 +11,9 @@ namespace Walle
         private Button compileButton;
         private Button runButton;
         private Button stopDrawing;
-        private Button buttonUp;
-        private Button buttonDown;
-        private Button buttonRight;
-        private Button buttonLeft;
         private Label writingLabel;
         private Label errorLabel;
+        private Panel drawingPanel;
         private PictureBox drawingBox;
         private PictureBox gymWalle;
         private PictureBox programmerWalle;
@@ -27,12 +25,9 @@ namespace Walle
             compileButton = new Button();
             runButton = new Button();
             stopDrawing = new Button();
-            buttonUp = new Button();
-            buttonDown = new Button();
-            buttonRight = new Button();
-            buttonLeft = new Button();
             writingLabel = new Label();
             errorLabel = new Label();
+            drawingPanel = new Panel();
             drawingBox = new PictureBox();
             gymWalle = new PictureBox();
             programmerWalle = new PictureBox();
@@ -45,7 +40,7 @@ namespace Walle
             compileButton.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             compileButton.Click += CompileButton_Click;
             compileButton.Size = new System.Drawing.Size(97, 42);
-            compileButton.Location = new System.Drawing.Point(94, 240);
+            compileButton.Location = new System.Drawing.Point(460, 75);
             compileButton.Text = "Compile";
             compileButton.UseVisualStyleBackColor = false;
 
@@ -53,7 +48,7 @@ namespace Walle
             runButton.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             runButton.Click += RunButton_Click;
             runButton.Size = new System.Drawing.Size(97, 42);
-            runButton.Location = new System.Drawing.Point(223, 240);
+            runButton.Location = new System.Drawing.Point(460, 160);
             runButton.Text = "Draw";
             runButton.Enabled = false;
             runButton.UseVisualStyleBackColor = false;
@@ -67,66 +62,35 @@ namespace Walle
             stopDrawing.Enabled = false;
             stopDrawing.UseVisualStyleBackColor = false;
 
-            buttonUp.BackColor = System.Drawing.SystemColors.ButtonFace;
-            buttonUp.Cursor = System.Windows.Forms.Cursors.Default;
-            buttonUp.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            buttonUp.Click += buttonUp_Click;
-            buttonUp.Size = new System.Drawing.Size(50, 45);
-            buttonUp.Location = new System.Drawing.Point(480, 63);
-            buttonUp.Text = "up";
-            buttonUp.UseVisualStyleBackColor = false;
-
-            buttonDown.BackColor = System.Drawing.SystemColors.ButtonFace;
-            buttonDown.Cursor = System.Windows.Forms.Cursors.Default;
-            buttonDown.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            buttonDown.Click += buttonDown_Click;
-            buttonDown.Size = new System.Drawing.Size(50, 45);
-            buttonDown.Location = new System.Drawing.Point(480, 167);
-            buttonDown.Text = "down";
-            buttonDown.UseVisualStyleBackColor = false;
-
-            buttonRight.BackColor = System.Drawing.SystemColors.ButtonFace;
-            buttonRight.Cursor = System.Windows.Forms.Cursors.Default;
-            buttonRight.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            buttonRight.Click += buttonRight_Click;
-            buttonRight.Size = new System.Drawing.Size(50, 45);
-            buttonRight.Location = new System.Drawing.Point(536, 117);
-            buttonRight.Text = "right";
-            buttonRight.UseVisualStyleBackColor = false;
-
-            buttonLeft.BackColor = System.Drawing.SystemColors.ButtonFace;
-            buttonLeft.Cursor = System.Windows.Forms.Cursors.Default;
-            buttonLeft.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            buttonLeft.Click += buttonLeft_Click;
-            buttonLeft.Size = new System.Drawing.Size(50, 45);
-            buttonLeft.Location = new System.Drawing.Point(424, 117);
-            buttonLeft.Text = "left";
-            buttonLeft.UseVisualStyleBackColor = false;
+           
 
             inputTextBox.BackColor = System.Drawing.SystemColors.ActiveBorder;
             inputTextBox.Location = new System.Drawing.Point(50, 75);
             inputTextBox.Multiline = true;
-            inputTextBox.Size = new System.Drawing.Size(322, 159);
+            inputTextBox.Size = new System.Drawing.Size(322, 350);
             inputTextBox.TextChanged += new EventHandler(TextBoxInput_TextChanged);
 
             writingLabel.AutoSize = true;
             writingLabel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            //writingLabel.ForeColor = System.Drawing.Color.SeaGreen;
             writingLabel.Location = new System.Drawing.Point(165, 46);
             writingLabel.Size = new System.Drawing.Size(38, 15);
             writingLabel.Text = "Write your code";
 
             errorLabel.AutoSize = false;
             errorLabel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            //errorLabel.ForeColor = System.Drawing.Color.RosyBrown;
-            errorLabel.Location = new System.Drawing.Point(325, 326);
+
+            errorLabel.Location = new System.Drawing.Point(405, 326);
             errorLabel.Size = new System.Drawing.Size(277, 86);
-            errorLabel.Text = "Compilation Errors";
+            errorLabel.Text = "Errores de CompilaciÃ³n";
+
+            drawingPanel.AutoScroll = true;
+            drawingPanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            drawingPanel.Location = new System.Drawing.Point(690, 78); 
+            drawingPanel.Size = new Size(628, 552);
 
             drawingBox.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            drawingBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            drawingBox.Location = new System.Drawing.Point(690, 78);
-            drawingBox.Size = new System.Drawing.Size(628, 552);
+            drawingBox.Location = new System.Drawing.Point(0, 0); 
+            drawingBox.Size = new System.Drawing.Size(3500, 3500); 
             drawingBox.TabStop = false;
             drawingBox.Paint += new PaintEventHandler(drawingBox_Paint);
 
@@ -152,14 +116,11 @@ namespace Walle
             Controls.Add(runButton);
             Controls.Add(compileButton);
             Controls.Add(stopDrawing);
-            Controls.Add(buttonUp);
-            Controls.Add(buttonDown);
-            Controls.Add(buttonRight);
-            Controls.Add(buttonLeft);
             Controls.Add(inputTextBox);
             Controls.Add(writingLabel);
             Controls.Add(errorLabel);
-            Controls.Add(drawingBox);
+            Controls.Add(drawingPanel);
+            drawingPanel.Controls.Add(drawingBox);
             Controls.Add(gymWalle);
             Controls.Add(programmerWalle);
             Cursor = System.Windows.Forms.Cursors.Default;
@@ -193,15 +154,15 @@ namespace Walle
 
                 //Asigna la lista 'result' de la instancia de 'Compiler' a tu lista 'drawables'
                 drawables = compiler.Result;
-                // Si la compilación es exitosa, habilita el botón 'Run'
+                // Si la compilaciï¿½n es exitosa, habilita el botï¿½n 'Run'
                 runButton.Enabled = true;
-                errorLabel.Text = "Errores de Compilación"; // Limpia el texto del label de error
+                errorLabel.Text = "Errores de CompilaciÃ³n"; // Limpia el texto del label de error
             }
             catch (Exception ex)
             {
-                // Si hay un error en la compilación, muestra el mensaje de error en el label
+                // Si hay un error en la compilaciï¿½n, muestra el mensaje de error en el label
                 errorLabel.Text = ex.Message;
-                runButton.Enabled = false; // Deshabilita el botón 'Run'
+                runButton.Enabled = false; // Deshabilita el botï¿½n 'Run'
             }
         }
 
@@ -222,35 +183,10 @@ namespace Walle
             stopDrawing.Enabled = false;
         }
 
-        private void buttonUp_Click(object sender, EventArgs e)
-        {
-            drawingBox.Top -= 10;
-        }
-
-        // Botón para mover hacia abajo
-        private void buttonDown_Click(object sender, EventArgs e)
-        {
-            drawingBox.Top += 10;
-
-        }
-
-        // Botón para mover hacia la izquierda
-        private void buttonLeft_Click(object sender, EventArgs e)
-        {
-            drawingBox.Location = new System.Drawing.Point(drawingBox.Location.X - 10, drawingBox.Location.Y);
-        }
-
-        // Botón para mover hacia la derecha
-        private void buttonRight_Click(object sender, EventArgs e)
-        {
-            drawingBox.Location = new System.Drawing.Point(drawingBox.Location.X + 10, drawingBox.Location.Y);
-        }
+       
         private void drawingBox_Paint(object sender, PaintEventArgs e)
         {
-            // Usa el objeto Graphics que se pasa como argumento
-            //Graphics g = e.Graphics;
-            // Llama al método DibujarFiguras con este objeto Graphics
-            //DibujarFiguras(g);
+            
             foreach (var drawable in drawables)
             {
                 if (isDrawing == false)
@@ -280,22 +216,25 @@ namespace Walle
                 switch (drawable.Type)
                 {
                     case Geo_Wall_E.Point:
-                        DrawPoint(e.Graphics, pen, drawable);
+                        DrawPoint(e.Graphics, pen, drawable.Type);
                         break;
                     case Line:
-                        DrawLine(e.Graphics, pen, drawable);
+                        DrawLine(e.Graphics, pen, drawable.Type);
                         break;
                     case Segment:
-                        DrawSegment(e.Graphics, pen, drawable);
+                        DrawSegment(e.Graphics, pen, drawable.Type);
                         break;
                     case Ray:
-                        DrawRay(e.Graphics, pen, drawable);
+                        DrawRay(e.Graphics, pen, drawable.Type);
                         break;
                     case Circle:
-                        DrawCircle(e.Graphics, pen, drawable);
+                        DrawCircle(e.Graphics, pen, drawable.Type);
                         break;
                     case Arc:
-                        DrawArc(e.Graphics, pen, drawable);
+                        DrawArc(e.Graphics, pen, drawable.Type);
+                        break;
+                    case Sequence:
+                        DrawSequence(e.Graphics, pen, drawable.Type);
                         break;
                     default:
                         errorLabel.Text = "\"Los \" @ drawable.Type @ \"no se pueden dibujar\"";
@@ -322,67 +261,69 @@ namespace Walle
                 Geo_Wall_E.Color.GRAY => System.Drawing.Color.Gray,
             };
         }
-        private static void DrawPoint(Graphics g, Pen pencil, IDrawable drawable)
+        private  void DrawPoint(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
         {
-            Geo_Wall_E.Point point = (Geo_Wall_E.Point)drawable.Type;
-            g.DrawEllipse(pencil, (int)point.X, (int)point.Y, 5, 5);
+  
+
+            Geo_Wall_E.Point point = (Geo_Wall_E.Point)drawable;
+            g.DrawEllipse(pencil, (int)point.X + drawingPanel.HorizontalScroll.Value, (int)point.Y, 5, 5);
         }
 
-        private void DrawLine(Graphics g, Pen pencil, IDrawable drawable)
+        private void DrawLine(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
         {
-            Line l = (Line)drawable.Type;
-            // Calcular la pendiente de la línea
+            Line l = (Line)drawable;
+            // Calcular la pendiente de la lï¿½nea
             double m = (l.P2.Y - l.P1.Y) / (l.P2.X - l.P1.X);
 
-            // Calcular los puntos de intersección con los bordes de la pantalla
+            // Calcular los puntos de intersecciï¿½n con los bordes de la pantalla
             int xLeft = 0;
             int yLeft = (int)(l.P1.Y - m * l.P1.X);
             int xRight = drawingBox.Width;
             int yRight = (int)(m * (xRight - l.P1.X) + l.P1.Y);
 
-            // Dibujar una línea desde el borde izquierdo hasta el borde derecho de la pantalla
+            // Dibujar una lï¿½nea desde el borde izquierdo hasta el borde derecho de la pantalla
             g.DrawLine(pencil, xLeft, yLeft, xRight, yRight);
         }
 
-        private void DrawSegment(Graphics g, Pen pencil, IDrawable drawable)
+        private void DrawSegment(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
         {
-            Segment s = (Segment)drawable.Type;
-            // Dibujar una línea desde el punto inicial hasta el punto final
+            Segment s = (Segment)drawable;
+            // Dibujar una lï¿½nea desde el punto inicial hasta el punto final
             g.DrawLine(pencil, (int)s.Start.X, (int)s.Start.Y, (int)s.End.X, (int)s.End.Y);
         }
 
-        private void DrawRay(Graphics g, Pen pencil, IDrawable drawable)
+        private void DrawRay(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
         {
-            Ray r = (Ray)drawable.Type;
-            // Calcular la pendiente de la línea
+            Ray r = (Ray)drawable;
+            // Calcular la pendiente de la lï¿½nea
             double m = (r.Point.Y - r.Start.Y) / (r.Point.X - r.Start.X);
 
             if (r.Start.Y < r.Point.Y)
             {
-                // Si el punto de inicio está por encima del punto final, dibuja hacia la izquierda
+                // Si el punto de inicio estï¿½ por encima del punto final, dibuja hacia la izquierda
                 int xLeft = 0;
                 int yLeft = (int)(r.Start.Y - m * r.Start.X);
                 g.DrawLine(pencil, (int)r.Start.X, (int)r.Start.Y, xLeft, yLeft);
             }
             else
             {
-                // Si el punto de inicio está por debajo del punto final, dibuja hacia la derecha
+                // Si el punto de inicio estï¿½ por debajo del punto final, dibuja hacia la derecha
                 int xRight = drawingBox.Width;
                 int yRight = (int)(m * (xRight - r.Start.X) + r.Start.Y);
                 g.DrawLine(pencil, (int)r.Start.X, (int)r.Start.Y, xRight, yRight);
             }
         }
 
-        private void DrawCircle(Graphics g, Pen pencil, IDrawable drawable)
+        private void DrawCircle(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
         {
-            Circle c = (Circle)drawable.Type;
+            Circle c = (Circle)drawable;
             g.DrawEllipse(pencil, (int)(c.Center.X - c.Radius.Measure_), (int)(c.Center.Y - c.Radius.Measure_), (int)c.Radius.Measure_ * 2, (int)c.Radius.Measure_ * 2);
         }
 
-        private void DrawArc(Graphics g, Pen pencil, IDrawable drawable)
+        private void DrawArc(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
         {
-            Arc a = (Arc)drawable.Type;
-            // Calcular los ángulos de inicio y final
+            Arc a = (Arc)drawable;
+            // Calcular los ï¿½ngulos de inicio y final
             float startAngle = (float)(Math.Atan2(a.Start.Y - a.Center.Y, a.Start.X - a.Center.X) * 180 / Math.PI);
             float endAngle = (float)(Math.Atan2(a.End.Y - a.Center.Y, a.End.X - a.Center.X) * 180 / Math.PI);
 
@@ -392,7 +333,7 @@ namespace Walle
                 endAngle += 360;
             }
 
-            // Calcular el ángulo de barrido
+            // Calcular el ï¿½ngulo de barrido
             float sweepAngle = endAngle - startAngle;
 
             // Dibujar las semirrectas
@@ -401,6 +342,40 @@ namespace Walle
 
             // Dibujar el arco
             g.DrawArc(pencil, (int)(a.Center.X - a.Measure.Measure_), (int)(a.Center.Y - a.Measure.Measure_), (int)a.Measure.Measure_ * 2, (int)a.Measure.Measure_ * 2, startAngle, sweepAngle);
+        }
+        private void DrawSequence(Graphics g, Pen pencil, Geo_Wall_E.Type drawable)
+        {
+            Sequence sequence = (Sequence)drawable;
+            foreach (var item in sequence.Elements)
+            {
+                switch (item)
+                {
+                    case Geo_Wall_E.Point:
+                        DrawPoint(g, pencil, item);
+                        break;
+                    case Line:
+                        DrawLine(g, pencil, item);
+                        break;
+                    case Segment:
+                        DrawSegment(g, pencil, item);
+                        break;
+                    case Ray:
+                        DrawRay(g, pencil, item);
+                        break;
+                    case Circle:
+                        DrawCircle(g, pencil, item);
+                        break;
+                    case Arc:
+                        DrawArc(g, pencil, item);
+                        break;
+                    case Sequence:
+                        DrawSequence(g, pencil, item);
+                        break;
+                    default:
+                        errorLabel.Text = "\"Los \" @ drawable.Type @ \"no se pueden dibujar\"";
+                        break;
+                }
+            }
         }
 
 
