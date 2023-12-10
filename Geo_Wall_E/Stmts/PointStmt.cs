@@ -15,7 +15,7 @@ namespace Geo_Wall_E
         {
             Random random = new();
             List<Type> points = new();
-            int count = random.Next(100, 1000);
+            int count = random.Next(100, 999);
             for (int i = 0; i < count; i++)
             {
                 Point p = new("")
