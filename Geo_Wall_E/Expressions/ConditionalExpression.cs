@@ -1,4 +1,3 @@
-
 namespace Geo_Wall_E
 {
     public class ConditionalExpression : Expressions, ICheckType
