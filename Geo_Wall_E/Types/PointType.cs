@@ -19,16 +19,16 @@ namespace Geo_Wall_E
 
         public static int RandomCoordinateX()
         {
-            //Genera un número random entre 0 y 628
+            //Genera un número random entre 0 y 400
             Random random = new();
-            int MaxPointCoordinate = 628;
+            int MaxPointCoordinate = 400;
             return random.Next(0,MaxPointCoordinate);
         }
         public static int RandomCoordinateY()
         {
-            //Genera un número random entre 0 y 552
+            //Genera un número random entre 0 y 400
             Random random = new();
-            int MaxPointCoordinate = 552;
+            int MaxPointCoordinate = 400;
             return random.Next(0,MaxPointCoordinate);
         }
     }
