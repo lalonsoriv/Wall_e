@@ -153,7 +153,7 @@ namespace Geo_Wall_E
                     MatchAndAdvance(TypesOfToken.CloseParenthesisToken);
                     return new FunctionCallExpression(name, arguments, null!);
                 }
-                throw new SyntaxError(currentToken.Line, currentToken.Column, "La función " + currentToken.Lexeme + "no ha sido declarada");
+                throw new SyntaxError(currentToken.Line, currentToken.Column, "La función " + currentToken.Lexeme + " no ha sido declarada");
             }
             return new VariableExpression(name);
         }
@@ -332,9 +332,9 @@ namespace Geo_Wall_E
         {
             Advance();
             if (ExpectedAndAdvance(TypesOfToken.CloseBracketsToken))
-            { 
+            {
                 Empty empty = new();
-                return new SequenceExpression( empty);
+                return new SequenceExpression(empty);
             }
             if (nextToken.Type == TypesOfToken.ThreeDotsToken)
             {
@@ -460,6 +460,12 @@ namespace Geo_Wall_E
                     variables.Add(new VariableExpression(Advance()));
 
                 } while (!ExpectedAndAdvance(TypesOfToken.CloseBracketsToken));
+                if (Expected(TypesOfToken.String))
+                {
+                    Token name = Advance();
+                    MatchAndAdvance(TypesOfToken.SemicolonToken);
+                    return new DrawStmt(name.Lexeme!, variables, colorStack.Peek());
+                }
                 MatchAndAdvance(TypesOfToken.SemicolonToken);
                 return new DrawStmt("", variables, colorStack.Peek());
             }
