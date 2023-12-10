@@ -4,10 +4,10 @@ namespace Geo_Wall_E
 {
     public class Interpreter
     {
-        private Scope scope = new();
+        private static Scope scope = new();
         private List<Node> Nodes = new();
-        private Randoms random = new();
-        private Samples samples = new();
+        private static Randoms random = new();
+        private static Samples samples = new();
         public Interpreter(List<Node> nodes)
         {
             Nodes = nodes;
@@ -16,7 +16,6 @@ namespace Geo_Wall_E
         public List<IDrawable> Evaluate()
         {
             List<IDrawable> toDraw = new();
-            List<Type> list = new();
             try
             {
                 foreach (var node in Nodes)
@@ -27,9 +26,9 @@ namespace Geo_Wall_E
                     }
                     else if (node is Expressions expressions)
                     {
-                        list.Add(TypeCheck(scope, expressions));
+                        TypeCheck(scope, expressions);
                     }
-                    else list.Add(new EmptyType());
+                    else _ = new EmptyType();
 
                 }
             }
@@ -42,16 +41,16 @@ namespace Geo_Wall_E
 
         }
 
-        private void EvaluateStmt(Stmt stmt, Scope scope, List<IDrawable> todraw)
+        public static void EvaluateStmt(Stmt stmt, Scope scope, List<IDrawable> todraw)
         {
             switch (stmt)
             {
                 case AssignationStmt:
-                    EvaluateAssignation((AssignationStmt)stmt);
+                    EvaluateAssignation((AssignationStmt)stmt,scope);
                     break;
                 case ArcStmt:
                     if (((ArcStmt)stmt).Sequence) scope.SetTypes(((ArcStmt)stmt).Name.Lexeme!, ArcStmt.ArcSequence());
-                    else scope.SetTypes(((ArcStmt)stmt).Name.Lexeme!, new Arc(new Point(""), new Point (""), new Point(""), new Measure(new Point(""), new Point(""), ""), ((ArcStmt)stmt).Name.Lexeme!));
+                    else scope.SetTypes(((ArcStmt)stmt).Name.Lexeme!, new Arc(new Point(""), new Point(""), new Point(""), new Measure(new Point(""), new Point(""), ""), ((ArcStmt)stmt).Name.Lexeme!));
                     break;
                 case CircleStmt:
                     if (((CircleStmt)stmt).Sequence) scope.SetTypes(((CircleStmt)stmt).Name.Lexeme!, CircleStmt.CircleSequence());
@@ -82,7 +81,7 @@ namespace Geo_Wall_E
             }
         }
 
-        private void EvaluateDraw(List<IDrawable> toDraw, DrawStmt stmt)
+        private static void EvaluateDraw(List<IDrawable> toDraw, DrawStmt stmt)
         {
             if (stmt.ExpressionSequence != null)
             {
@@ -138,20 +137,20 @@ namespace Geo_Wall_E
             }
         }
 
-        private void EvaluateAssignation(AssignationStmt asig)
+        public static void EvaluateAssignation(AssignationStmt asig, Scope scope)
         {
             if (asig.Name != null)
             {
-                if (asig.Assigment is SequenceExpression || asig.Assigment is IntersectExpression)
+                if (asig.Assignment is SequenceExpression || asig.Assignment is IntersectExpression || asig.Assignment is FunctionCallExpression)
                 {
-                    Sequence sequence = (Sequence)((ICheckType)asig.Assigment).Check(scope);
+                    Sequence sequence = (Sequence)((ICheckType)asig.Assignment).Check(scope);
                     for (int i = 0; i < asig.Name.Count; i++)
                     {
                         if (asig.Name[i].Type == TypesOfToken.UnderscoreToken) continue;
-                        if (asig.Name.Count > sequence.Elements.Count) scope.SetTypes(asig.Name[i].Lexeme!, new EmptyType());
-                        if (asig.Name[i].Type == TypesOfToken.RestToken)
+                        if (i > sequence.Elements.Count) scope.SetTypes(asig.Name[i].Lexeme!, new EmptyType());
+                        if (asig.Name[i].Type == TypesOfToken.RestToken || i == asig.Name.Count - 1)
                         {
-                            Sequence rest = new([], "");
+                            Sequence rest = new(new(), "");
                             for (int j = i; j < sequence.Elements.Count; j++)
                             {
                                 rest.Elements.Add(sequence.Elements[j]);
@@ -162,14 +161,14 @@ namespace Geo_Wall_E
                         else scope.SetTypes(asig.Name[i].Lexeme!, sequence.Elements[i]);
                     }
                 }
-                if (asig.Assigment is UndefinedExpression)
+                if (asig.Assignment is UndefinedExpression)
                 {
                     for (int i = 0; i < asig.Name.Count; i++)
                     {
                         scope.SetTypes(asig.Name[i].Lexeme!, new Undefined());
                     }
                 }
-                if (asig.Assigment is Randoms)
+                if (asig.Assignment is Randoms)
                 {
                     for (int i = 0; i < asig.Name.Count; i++)
                     {
@@ -179,7 +178,7 @@ namespace Geo_Wall_E
                         scope.SetTypes(asig.Name[i].Lexeme!, random.RandomSequence.Elements[i]);
                     }
                 }
-                if (asig.Assigment is Samples)
+                if (asig.Assignment is Samples)
                 {
                     for (int i = 0; i < asig.Name.Count; i++)
                     {
@@ -189,9 +188,9 @@ namespace Geo_Wall_E
                         scope.SetTypes(asig.Name[i].Lexeme!, samples.Sequence.Elements[i]);
                     }
                 }
-                if (asig.Assigment is RandomPoints)
+                if (asig.Assignment is RandomPoints)
                 {
-                    Sequence sequence = (Sequence)((ICheckType)asig.Assigment).Check(scope);
+                    Sequence sequence = (Sequence)((ICheckType)asig.Assignment).Check(scope);
                     for (int i = 0; i < asig.Name.Count; i++)
                     {
                         if (asig.Name[i].Type == TypesOfToken.UnderscoreToken || asig.Name[i].Type == TypesOfToken.RestToken) continue;
@@ -200,10 +199,11 @@ namespace Geo_Wall_E
                     }
                 }
             }
-            else switch (asig.Assigment)
+            else switch (asig.Assignment)
                 {
                     case ArcExpression:
                     case CircleExpression:
+                    case FunctionCallExpression:
                     case IntersectExpression:
                     case LetInExpression:
                     case LineExpression:
@@ -213,7 +213,7 @@ namespace Geo_Wall_E
                     case SegmentExpression:
                     case SequenceExpression:
                     case VariableExpression:
-                        scope.SetTypes(asig.Name_!.Lexeme!, ((ICheckType)asig.Assigment).Check(scope));
+                        scope.SetTypes(asig.Name_!.Lexeme!, ((ICheckType)asig.Assignment).Check(scope));
                         break;
                     default:
                         throw new SemanticError(0, 0, "No es posible evaluar esta expresión");
